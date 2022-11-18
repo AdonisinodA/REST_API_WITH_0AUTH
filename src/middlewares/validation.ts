@@ -12,3 +12,5 @@ class Validation {
     next();
   }
 }
+
+export default new Validation();
