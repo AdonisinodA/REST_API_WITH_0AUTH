@@ -15,5 +15,5 @@ app.use(Routers);
 app.use(errorHandler());
 
 app.listen(PORT || 3001, () => {
-  console.log("server onn");
+  console.log("server on");
 });

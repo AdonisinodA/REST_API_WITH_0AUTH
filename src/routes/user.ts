@@ -1,13 +1,16 @@
 import { Router } from "express";
 import { User } from "../controllers";
-import { DomainError } from "../exceptions/errors";
+import { validar } from "../middlewares/validation";
+import { userSchema } from "../schemas";
+
 const router = Router();
 
 const ROUTE_BASE = "/user/";
 const controller = new User();
-router.get(`${ROUTE_BASE}cadastro`, controller.CadastroDeUsuario);
-router.get(`/teste`, (req, res, next) => {
-  next(Promise.reject(new DomainError("teste")));
-});
+router.post(
+  `${ROUTE_BASE}cadastro`,
+  validar(userSchema),
+  controller.CadastroDeUsuario
+);
 
 export default router;

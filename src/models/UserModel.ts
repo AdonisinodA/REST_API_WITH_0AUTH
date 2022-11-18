@@ -8,8 +8,7 @@ interface IuserSchema {
   createAt?: number;
   updateAt?: number;
 }
-export interface ChatLogDocument extends Omit<IChatLog, "_id">, Document {}
-type testeI = mongoose.InferSchemaType<typeof userSchema>;
+type Iuser = mongoose.InferSchemaType<typeof userSchema>;
 
 const userSchema = new Schema({
   email: { type: String, required: true },
@@ -20,14 +19,14 @@ const userSchema = new Schema({
 });
 
 userSchema.pre("save", async function (next: any) {
-  let user = this as testeI;
+  let user = this as Iuser;
   user.createAt = new Date().getTime();
   user.updateAt = new Date().getTime();
   return next();
 });
 
 userSchema.pre("updateOne", async function (next: any) {
-  let user = this as testeI;
+  let user = this as unknown as Iuser;
   user.updateAt = new Date().getTime();
   return next();
 });
