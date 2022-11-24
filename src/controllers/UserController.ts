@@ -1,12 +1,19 @@
 import { Request, Response, NextFunction } from "express";
+import { UserSchema } from "../schemas";
+import { hashPassword, UserService } from "../service";
 
 class User {
   async CadastroDeUsuario(
-    request: Request,
+    request: Request<{}, {}, UserSchema["body"]>,
     response: Response,
     next: NextFunction
   ) {
-    const { email, userName, password } = request.body;
+    try {
+      UserService.cadastroUsuario(request.body);
+      response.status(200).json("sucesso");
+    } catch (error: any) {
+      next(error);
+    }
   }
 }
 

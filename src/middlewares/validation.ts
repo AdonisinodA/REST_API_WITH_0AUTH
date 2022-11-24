@@ -10,12 +10,9 @@ const validar =
         { body: request.body },
         { abortEarly: true }
       );
-      console.log("🚀 ~ file: validation.ts ~ line 10 ~ result", result);
-      // next();
+      next();
     } catch (error: any) {
-      const { ...err } = error;
-      console.log("🚀 ~ file: validation.ts ~ line 17 ~ err", err);
-      // next(error);
+      next(error);
     }
   };
 
