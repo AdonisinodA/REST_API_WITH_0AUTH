@@ -1,1 +1,2 @@
-export * from "./UserSchema";
+export * from "./UserSchema/CadastroSchema";
+export * from "./UserSchema/LoginSchema";

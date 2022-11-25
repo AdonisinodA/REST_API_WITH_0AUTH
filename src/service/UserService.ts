@@ -1,4 +1,5 @@
 import { User } from "../models";
+import { Iuser } from "../models/UserModel";
 import { hashPassword } from "./HashService";
 import ModelService from "./ModelService";
 
@@ -8,16 +9,20 @@ interface IUser {
   password: string;
 }
 
+interface ILogin {
+  email: string;
+  password: string;
+}
 class UserService {
   async cadastroUsuario(user: IUser) {
-    const result = hashPassword(user.password, user.email);
+    const result = hashPassword({ password: user.password, email: user.email });
     const usuarioNovo = { ...user, password: result };
+    await ModelService.criarModel(User, usuarioNovo);
+  }
 
-    console.log(
-      "🚀 ~ file: UserService.ts ~ line 15 ~ UserService ~ cadastroUsuario ~ usuarioNovo",
-      usuarioNovo
-    );
-    ModelService.criarModel(User, usuarioNovo);
+  async login(login: ILogin): Promise<Iuser> {
+    const encontrarUsuario = await ModelService.buscarBanco(User, login.email);
+    return encontrarUsuario;
   }
 }
 

@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from "express";
-import { userSchema } from "../schemas";
 import { AnySchema } from "yup";
 
 const validar =

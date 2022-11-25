@@ -8,7 +8,7 @@ interface IuserSchema {
   createAt?: number;
   updateAt?: number;
 }
-type Iuser = mongoose.InferSchemaType<typeof userSchema>;
+export type Iuser = mongoose.InferSchemaType<typeof userSchema>;
 
 const userSchema = new Schema({
   email: { type: String, required: true, unique: true },
