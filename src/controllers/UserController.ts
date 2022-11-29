@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { Iuser } from "../models/UserModel";
 import { CadastroSchema, LoginSchema } from "../schemas";
 import { compararPassword, hashPassword, UserService } from "../service";
 
@@ -9,7 +10,8 @@ class User {
     next: NextFunction
   ) {
     try {
-      await UserService.cadastroUsuario(request.body);
+      const result = await UserService.cadastroUsuario(request.body);
+      response.locals.authorization = result;
       response.status(200).json("sucesso");
     } catch (error: any) {
       next(error);
@@ -22,9 +24,15 @@ class User {
     next: NextFunction
   ) {
     try {
-      const result = await UserService.login(request.body);
-      const comparacaoHash = compararPassword(result.password, request.body);
+      const result: { token: string; user: Iuser } = await UserService.login(
+        request.body
+      );
+      const comparacaoHash = compararPassword(
+        result.user.password,
+        request.body
+      );
       if (comparacaoHash) {
+        response.locals.authorization = result.token;
         return response.status(200).json("logado");
       }
       next({
